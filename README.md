@@ -1,6 +1,9 @@
 ## AdminApp
 ### One of..
 
+##### Soon the services will come separately
+##### Authentication and authorization are not from Microsoft Identitiy, in progress...
+#
 ![LogInPage](https://user-images.githubusercontent.com/76565416/220217130-5235599d-9b69-430c-9d3a-5170a8f8ef9c.png)
 
 
