@@ -1,0 +1,137 @@
+﻿@using AdminApp.Repository
+@model AdminApp.Models.UserRole
+
+@{
+    ViewBag.Title = "Edit"; 
+    var u_Role = ViewBag.Rola;
+    var rolaLista = ViewBag.rolaLista;
+}
+
+@if (TempData["NijeURoli"] == null)
+{
+    <div class="alert alert-info mt-5 mb-5" role="alert">
+                    Korisnik nije dodeljen ni jednoj roli !
+            <a asp-action="Index" class="alert-link alert-success">Povratak na pocetnu stranu</a>
+    </div>    
+}
+
+
+<div class="container card-header bg-dark rounded-3 mt-5">
+    <div class="row form-inline">
+        <h2 class="col-sm text-muted">Edit</h2>
+        <div class="col-md-6">
+            <a asp-action="Index" class="btn btn-sm btn-outline-info fw-semibold float-lg-right ml-lg-2">Users</a>
+        </div>
+    </div>
+</div>
+
+
+<form asp-action="Edit" asp-controller="Admin" class="needs-validation text-light py-5" validate>
+                            
+    <div class="form-row">
+
+        <input type="hidden" asp-for="@Model.IdUserNavigation.IdUser" id="IdUser" />
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="IdUserNavigation.UserName" class="control-label needs-validation text-info"></label>
+            <input asp-for="IdUserNavigation.UserName" class="form-control bg-dark needs-validation text-light" validate required /><div class="invalid-feedback"></div>
+            <span asp-validation-for="IdUserNavigation.UserName" class="text-danger"></span><span class="invalid-feedback"></span>
+            <div class="valid-feedback">  OK! </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="IdUserNavigation.FirstName" class="control-label needs-validation text-info"></label>
+            <input asp-for="IdUserNavigation.FirstName" class="form-control bg-dark needs-validation text-light" validate required />
+            <div class="invalid-feedback">Input required!</div>
+            <div class="valid-feedback">  OK! </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="IdUserNavigation.LastName" class="control-label needs-validation text-info"></label>
+            <input asp-for="IdUserNavigation.LastName" class="form-control bg-dark needs-validation text-light" validate required /><div class="invalid-feedback">Input required!</div>
+            <div class="valid-feedback"> OK!  </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="IdUserNavigation.Address" type="text" id="validationServer03" class="control-label needs-validation text-info"></label>
+            <input asp-for="IdUserNavigation.Address" type="text" class="form-control bg-dark text-light border-opacity-50" validate required /><div class="invalid-feedback">Input required!</div>
+            <div class="valid-feedback"> OK! </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="IdUserNavigation.DateOfBirth" class="control-label needs-validation text-info"></label>
+            <input asp-for="IdUserNavigation.DateOfBirth" class="form-control bg-dark needs-validation text-center text-light" validate required /><div class="invalid-feedback">Input required!</div>
+            <div class="valid-feedback"> OK! </div>
+        </div>
+
+       <div class="col-md-4 mb-4">
+            <label class="control-label text-info">Rola</label>
+            <select name="m=>m.IdRoleNavigation.IdRole" class="form-select bg-dark form-secondary text-center" required asp-items="@(new SelectList(u_Role, nameof(u_Role.IdRole), nameof(u_Role.RoleName)))">
+                <option validate required selected="@Model.IdRoleNavigation.IdRole" itemid="@Model.IdRoleNavigation.IdRole" value="@Model.IdRoleNavigation.IdRole">Select</option>
+            </select>
+            <div class="valid-feedback"> Looks good! </div>
+            <div class="invalid-feedback">Input required!</div>
+        </div>
+
+@*        <div class="col-md-4 mb-4">
+            <label class="control-label text-info">Rola</label>
+            <select name="u_Role" class="form-select bg-dark text-info text-center" validate required asp-items="@(new SelectList (u_Role, nameof(u_Role.IdRole),nameof(u_Role.RoleName)))">
+                <option validate required value="" selected="rolaLista.IdRole" itemid="rolaLista.IdRole">Select</option>
+            </select>
+            <div class="invalid-feedback"> Invalid input</div>
+            <div class="valid-feedback">  OK!  </div>
+        </div>*@
+         
+        <div class="col-sm mb-4">
+            <input href="#" cursor="hand" value="Edit" onclick="ConfirmEdit(@Model.IdUserNavigation.IdUser)" id="@Model.IdUserNavigation.IdUser" class="btn btn-md btn-outline-info font-weight-bold shadow-lg needs-validation" validate required />
+        </div>       
+
+    </div>
+
+ 
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Upozorenje!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Potrvrda izmene ?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                    @*<a asp-action="DeleteRole" asp-route-id="@Model.IdRole" class="btn-sm btn-danger text-decoration-none" onclick="ConfirmDelete">Confirm</a>*@
+                    <input type="submit" value="Edit" asp-action="Edit" asp-route-id="@Model.IdUser" onclick="ConfirmEdit" class="btn btn-md btn-outline-info font-weight-bold shadow-lg needs-validation" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        var ConfirmEdit = function (IdUser) {
+            $("#IdUser").val(IdUser);
+            $("#staticBackdrop").modal('show');
+        }
+        var DeleteUser = function () {
+            var IdUser = $("#IdUser").val();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Edit/IdUser",
+                data: { Id: IdUser },
+                success: function (result) {
+                    $("#staticBackdrop").modal("hide");
+                    $("#row_" + IdUser).edit();
+                }
+            })
+        }
+    </script>
+}
+
+

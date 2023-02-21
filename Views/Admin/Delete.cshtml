@@ -1,0 +1,16 @@
+﻿@model AdminApp.Models.User
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@{
+    if (TempData["deletedRole"] == null)
+    {
+        <div class="alert alert-info mt-5 mb-5" role="alert">
+                     Uspesno obrisan korisnik!
+             <a asp-action="Index" class="alert-link alert-success">Povratak na pocetnu stranu</a>
+        </div>
+    }
+
+}

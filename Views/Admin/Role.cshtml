@@ -1,0 +1,117 @@
+﻿@using AdminApp.Repository
+@model AdminApp.Models.Role
+
+@{
+    ViewBag.Title = "Role";
+
+    var brisiRolu = ViewBag.BrisiRolu;
+}
+
+
+<div class="container card-header bg-dark text-light shadow-lg rounded-3 mt-5">
+    <div class="row form-inline">
+        <h2 class="col-sm text-secondary">Role</h2> 
+        <div class="col-md-6">
+            <a asp-action="Index" class="btn btn-sm btn-outline-info font-weight-bold ml-lg-2 offset-lg-10 float-lg-right">Users</a>
+
+            <a asp-action="CreateRole" class="btn btn-sm btn-outline-info font-weight-bold ml-lg-2 offset-lg-10 float-lg-right">New role</a>
+        </div>
+    </div>
+</div>
+
+
+    @if (TempData["newRole"] != null)
+    {
+        <div class="alert alert-info mb-5 mt-5 text-center" role="alert">
+                Uspesno kreirana nova Rola!
+            <a asp-action="Index" class="alert-link">Povratak na pocetnu stranu</a>
+        </div>
+    }
+
+    @if (TempData["izmenaRole"] != null)
+    {
+        <div class="alert alert-success text-center mt-5 mb-5" role="alert">
+                Rola je izmenjena!
+            <a asp-action="Index" class="alert-link">Povratak na pocetnu stranu</a>
+        </div>
+        
+    }
+
+
+<table class="table table-borderless table-hover table-dark table-responsive-md text-secondary text-center shadow-lg mt-4 rounded-5">
+    <thead class="border-bottom border-secondary text-white-50">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateDismised)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in AdminRepository.GetRole())
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateDismised)
+                </td>
+                <td>
+                    <a asp-action="EditRole" asp-route-id="@item.IdRole" class="bi bi-pen m-3" style="color: aqua; width:1rem;"></a>
+                    <a href="#" onclick="ConfirmDelete(@item.IdRole)" id="@item.IdRole" class="bi bi-trash3" style="color: red; width:1rem; margin-left: 10px;"></a>
+                </td>
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content bg-dark">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Upozorenje!</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Da li ste sigurni da želite da obrišete ?</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a asp-action="DeleteRole" asp-route-id="@item.IdRole" class="btn-sm btn-danger text-decoration-none" onclick="ConfirmDelete">Confirm</a>
+                            </div>
+                        </div>
+                    </div>
+                        <input type="hidden" id="hiddenIdRole" />
+                </div>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");   }
+}
+    <script>
+    var ConfirmDelete = function (IdRole) {
+        $("#hiddenIdRole").val(IdRole);
+            $("#staticBackdrop").modal('show');
+        }
+        var DeleteRole = function () {
+        var IdRole = $("#hiddenIdRole").val();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DeleteRole/IdRole",
+            data: { Id: IdRole },
+                success: function (result) {
+                $("#staticBackdrop").modal("hide");
+                $("#row_" + IdRole).remove();
+                }
+            })
+        }
+    </script>

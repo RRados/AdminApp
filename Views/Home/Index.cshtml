@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "Home Page";
+}
+@if (TempData["LoginSuccess"] != null)
+{
+    <h4 class="container alert bg-transparent mt-5 border border-info text-info border-success text-center"> @TempData["LoginSuccess"]</h4>
+}
+
+<div class="mt-5"></div>
+
+@if (User.Identity.IsAuthenticated)
+    {   
+        <form asp-action="Search" method="get" class="container mt-4 mb-4 d-grid gap-2 d-sm-flex justify-content-md-end needs-validation" validate novalidate>
+            <input name="searchName" type="text" class="form-control border-top-0 border-end-0 border-start-0 shadow-none col-sm-6 mr-1 bg-dark text-white needs-validation" placeholder="Search" validate required />
+
+            <button class="btn btn-sm btn-outline-danger ml-lg-1 needs-validation" type="submit">Search</button>
+        </form>
+    }
+
+
+
+<partial name="~/Views/Shared/_ListaUserPartial.cshtml" />
+

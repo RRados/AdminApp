@@ -1,0 +1,119 @@
+﻿@model IEnumerable<User>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<partial class="mt-5" name="~/Views/Shared/_PartialSearch.cshtml"/>
+
+ @*   @if (Model.Count() == 0)
+    {
+        <div class="alert border border-danger alert-dismissible text-center show fade mt-5 mb-5" role="alert">
+            <strong class="text-warning"> Korisnik nije u sistemu!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    else
+    {    
+        <table class="table table-borderless table-dark text-secondary text-center rounded-3 box-shadow mt-5">
+            <thead>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DateOfBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </td>
+                    <td>
+                    
+                    </td>
+                </tr>
+            </thead>
+
+            <tbody class="text-secondary table-active text-light">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfBirth)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdUser" class="bi bi-pen" style="color:aqua;; width:1rem;"></a>
+                            <a asp-action="Details" asp-route-id="@item.IdUser" class="bi bi-book" style="color: chartreuse; width: 1rem; margin-left: 10px;"></a>
+                            <a href="#" onclick="ConfirmDelete(@item.IdUser)" id="@item.IdUser" class="bi bi-trash3" style="color: red; width:1rem; margin-left: 10px;"></a>
+                        </td>
+                    </tr>             
+
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content bg-dark">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Upozorenje!</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Da li ste sigurni da želite da obrišete ?</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a asp-action="Delete" asp-route-id="@item.IdUser" class="btn-sm btn-danger" onclick="ConfirmDelete">Confirm</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>                           
+                }
+            </tbody>
+        </table>
+    }
+
+<input type="hidden" id="hiddenIdUser" />
+*@
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); 
+    } 
+    <script>
+
+        var ConfirmDelete = function (DeleteUser) {
+
+            $("#hiddenIdUser").val(DeleteUser);
+            $("#staticBackdrop").modal('show');
+        }
+
+        var DeleteUser = function () {
+            var userId = $("#hiddenIdUser").val();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Delete/IdUser",
+                data: { Id: IdUser },
+                success: function (result) {
+
+                    $("#staticBackdrop").modal("hide");
+                    $("#row_" + IdUser).remove();
+                }
+            })
+        }
+    </script>
+}

@@ -1,0 +1,54 @@
+﻿@model AdminApp.Models.Role
+
+@{  ViewBag.Title = "New role"; }
+
+<div class="container card-header bg-dark text-light rounded-3 mt-5">
+    <div class="row form-inline">
+        <h2 class="col-sm text-muted">New role</h2>
+        <div class="col-md-6">
+
+            <a asp-action="Index" class="btn btn-sm btn-outline-info font-weight-bold ml-lg-2 offset-lg-10 float-lg-right">Users</a>
+
+            <a asp-action="Role" class="btn btn-sm btn-outline-info font-weight-bold ml-lg-2 offset-lg-10 float-lg-right">Roles</a>
+      
+        </div>
+    </div>
+</div>
+
+
+
+<form asp-action="CreateRole" class="needs-validation mt-5" validate novalidate>
+
+    <div class="form-row">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="RoleName" class="control-label text-secondary"></label>
+            <input asp-for="RoleName" class="form-control bg-dark text-secondary-emphasis" validate required />
+            <div class="valid-feedback"> OK </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="DateCreated" class="control-label text-secondary"></label>
+            <input asp-for="DateCreated" class="form-control bg-dark text-secondary-emphasis" validate required />
+            <div class="valid-feedback">  OK  </div>
+        </div>
+
+        <div class="col-md-4 mb-3">          
+            <label asp-for="DateDismised" class="control-label text-secondary"></label>
+            <input asp-for="DateDismised" class="form-control bg-dark text-secondary-emphasis" validate required />
+            <div class="valid-feedback"> OK  </div>
+        </div>
+
+        <div class="col-sm mb-4 mt-4">
+            <input type="submit" value="Create" class="btn btn-md btn-outline-info text-danger fw-semibold" validate required />
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

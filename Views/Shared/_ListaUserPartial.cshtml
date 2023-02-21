@@ -1,0 +1,127 @@
+﻿@using AdminApp.Repository
+@model IEnumerable<User>
+
+@{    ViewBag.Title = "Users";   }
+
+
+@if (AdminRepository.GetUsers().Count == 0)
+{
+    <h3 class="alert alert-danger text-center"><strong>Nema korisnika!</strong></h3>
+}
+else
+{
+    <table class="container table table-borderless table-dark table-hover text-secondary text-center rounded-3 box-shadow">
+        <thead class="border-bottom border-secondary text-white-50">
+            <tr>
+                <td>
+                    ID
+                </td>          
+                <th>
+                    UserName
+                </th>
+                <th>
+                    FirstName
+                </th>
+                <th>
+                    LastName
+                </th>
+                <th>
+                    DateOfBirth
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Email
+                </th>    
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody class="container text-secondary">
+            @foreach (User item in AdminRepository.GetUsers())
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdUser)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>            
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>                
+                   
+                    <td class="justify-content-md-around">
+
+                        @if(User.Identity.IsAuthenticated)
+                        {
+
+                            @if (User.IsInRole("Admin"))
+                            { 
+                                <a asp-controller="Admin" asp-action="Details" asp-route-id="@item.IdUser" class="bi bi-book" style="color:chartreuse;  width: 1rem; margin-right: 10px;"></a>
+
+                                <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.IdUser" class="bi bi-pen" style="color:aqua; width:1rem; margin-right: 10px;"></a>
+                                <a h ref="#" onclick="ConfirmDelete(@item.IdUser)" id="@item.IdUser" class="bi bi-trash3" style="color: red; width:1rem; margin-left: 10px;"></a>
+                            }
+                        }
+                    </td>
+
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content bg-dark">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Upozorenje!</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Da li ste sigurni da želite da obrišete ?</h5>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <a asp-action="Delete" asp-route-id="@item.IdUser" class="btn-sm btn-danger text-decoration-none" onclick="ConfirmDelete">Confirm</a>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="hiddenIdUser" />
+                    </div>
+                </tr>
+            }
+        </tbody>
+    </table>  
+ }   
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    var ConfirmDelete = function (IdUser) {
+        $("#hiddenIdRole").val(IdUser);
+        $("#staticBackdrop").modal('show');
+    }
+    var DeleteUser = function () {
+        var IdUser = $("#hiddenIdRole").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/DeleteUser/IdUser",
+            data: { Id: IdUser },
+            success: function (result) {
+                $("#staticBackdrop").modal("hide");
+                $("#row_" + IdUser).remove();
+            }
+        })
+    }
+</script>

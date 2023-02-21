@@ -1,0 +1,95 @@
+﻿
+@using AdminApp.Repository
+@model AdminApp.Models.UserRole
+
+
+@{    ViewBag.Title = "Details";   }
+
+<div class="container card-header text-light bg-dark rounded-3 border-opacity-100 mt-5">
+    <div class="row form-inline" >
+        <h2 class="col-sm text-muted">Details</h2>
+        <div class="col-md-6">
+
+            <a asp-action="Edit" asp-route-id="@Model.IdUserNavigation.IdUser" class="btn btn-sm btn-outline-info fw-semibold float-lg-right ml-lg-2 shadow-lg">Edit</a>
+
+            <a asp-action="Index" class="btn btn-sm btn-outline-info fw-bold float-lg-right ml-lg-2 shadow-lg">Users</a>      
+
+        </div>
+    </div>
+</div>
+
+<table class="table table-borderless table-dark text-center text-info rounded-3 box-shadow mt-5">
+    <thead>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.IdRoleNavigation.RoleName)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.IdUserNavigation.UserName)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.IdUserNavigation.FirstName)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.IdUserNavigation.LastName)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.IdUserNavigation.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.IdUserNavigation.Address)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.IdUserNavigation.Email)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.IdUserNavigation.Password)
+            </td>           
+            <td>
+                @Html.DisplayNameFor(model => model.IdUserNavigation.ConfirmPassword)
+            </td>           
+            <td>
+                
+            </td>
+        </tr>
+    </thead>
+    <tbody class="text-secondary">
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.IdRoleNavigation.RoleName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.IdUserNavigation.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.IdUserNavigation.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.IdUserNavigation.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.IdUserNavigation.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.IdUserNavigation.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.IdUserNavigation.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.IdUserNavigation.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.IdUserNavigation.Password)
+            </td>
+            <td></td>
+        </tr>  
+    </tbody>
+</table>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

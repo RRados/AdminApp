@@ -1,0 +1,57 @@
+﻿@using AdminApp.Repository
+@model AdminApp.Models.Role
+
+
+@{  ViewBag.Title = "Edit role";  }
+
+
+<div class="container card-header bg-dark rounded-3 mt-5">
+    <div class="row form-inline">
+        <h2 class="col-sm text-muted">Edit Role</h2>
+        <div class="col-md-6">
+            <a asp-action="Index" class="btn btn-sm btn-outline-info fw-semibold float-lg-right ml-lg-2">Users</a>
+
+            <a asp-action="Role" class="btn btn-sm btn-outline-info fw-semibold float-lg-right ml-lg-2">Roles</a>
+      
+        </div>
+    </div>
+</div>
+
+ 
+<form asp-action="EditRole" class="needs-validation text-light py-5" validate novalidate>
+        
+    <div class="form-row">
+
+         <input type="hidden" asp-for="IdRole" />
+
+        <div class="col-md-4 mb-3 border-opacity-50">
+             <label asp-for="RoleName" class="control-label text-info"></label>
+            <input asp-for="RoleName" class="form-control bg-dark needs-validation text-center text-light validate" validate required />
+            <span asp-validation-for="RoleName" class="text-danger"></span><span class="invalid-feedback"></span>
+            <div class="valid-feedback">  Looks good!  </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="DateCreated" class="control-label text-info"></label>
+            <input asp-for="DateCreated" class="form-control bg-dark needs-validation text-center text-light" validate required />
+            <div class="valid-feedback">  Looks good!  </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="DateDismised" class="control-label text-info"></label>
+            <input asp-for="DateDismised" class="form-control bg-dark needs-validation text-center text-light" validate required />
+             <div class="valid-feedback">  Looks good!  </div>
+        </div>
+
+        <div class="col-sm mb-4">
+            <input type="submit" value="Save" class="btn btn-outline-info font-weight-bold shadow-lg mt-4 needs-validation" />
+        </div>
+    </div>
+</form>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<User>
+
+
+@{    ViewBag.Title = "Index";    }
+
+<div class="container card-header text-light bg-dark rounded-3 mt-5 mb-4">
+    <div class="row form-inline" >
+        <h2 class="col-sm text-muted">Admin dashboard</h2>
+        <div class="col-md-6">
+            <a asp-action="CreateNew" class="btn btn-sm btn-outline-info font-weight-bold ml-lg-2 offset-lg-10 float-lg-right">New user</a>
+            <a asp-action="Role" class="btn btn-sm btn-outline-info font-weight-bold ml-lg-2 offset-lg-10 float-lg-right">Roles</a>      
+        </div>
+    </div>
+</div>
+
+
+
+@{
+    if (TempData["newUser"] != null)
+    {
+        <p class="alert alert-success container shadow-lg mt-5">Korisnik uspesno kreiran!</p>       
+    }
+
+    if (TempData["edit"] != null)
+    {
+        <p class="alert alert-success container shadow-lg mt-5">Podaci uspesno izmenjeni !</p>
+    }
+
+    if (TempData["editUserRole"] != null)
+    {
+        <p class="alert alert-success col-md-8 offset-md-3 shadow-lg mt-5">Korisnik je azuriran!</p>
+    }
+
+    if (TempData["postojiKorisnik"] != null)
+    {
+        <p class="alert alert-success col-md-8 offset-md-3 shadow-lg mt-5">Korisnik vec postoji u rolu!</p>
+    }    
+
+    if (TempData["search"] != null)
+    {
+        <div class="alert alert-success alert-dismissible text-center show fade mt-5 mb-5" role="alert">
+            <strong> Korisnik nije u sistemu!</strong>
+            <button type="button" class="btn-close bi-fullscreen-exit" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+}
+<div mt-4 mb-4></div>
+
+
+@if(User.IsInRole("Admin") || User.IsInRole("User"))
+{    
+
+    <form asp-action="Search" method="get" class=" mt-4 mb-4 d-grid gap-2 d-sm-flex justify-content-md-end needs-validation" validate novalidate>
+        <input name="searchName" type="text" class="form-control border-top-0 border-end-0 border-start-0 shadow-none col-sm-6 mr-1 bg-dark text-white needs-validation" placeholder="Search" validate required />
+
+        <button class="btn btn-sm btn-outline-danger ml-lg-1 needs-validation" type="submit">Search</button>
+    </form>
+}
+
+<partial class="mt-5" name="~/Views/Shared/_ListaUserPartial.cshtml"/>

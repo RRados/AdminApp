@@ -1,0 +1,54 @@
+﻿@model AdminApp.Models.User
+
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-md w-75 mt-5">
+
+    @if (TempData["register"] != null)
+    {
+        <div class="container alert border border-info text-info text-center alert-dismissible fade show">
+            <strong>Uspesno ste se registrovali!</strong>
+            <p><h4>Morate sacekati administratori da Vam dodeli pravo pristupa!</h4></p>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>        
+    }
+
+</div>
+
+<form asp-controller="LogIn" asp-action="Register" class="container p-3">
+
+    <div class="card border border-info mx-auto mt-5 shadow-lg box-shadow" style="width: 20em; background:#2b2d3a;">
+
+        <div class="card-header border-0 mt-2">
+            <h2 class="text-white-50">Register</h2>
+            <hr class="bg-info"/>
+        </div>
+
+        <div class="card-body">
+         
+            <div>
+                <label asp-for="Email" for="exampleInputEmail1" aria-describedby="emailHelp" class="row-form-label text-white-50">Email</label>
+                <input asp-for="Email" type="email" id="exampleInputEmail1" class="form-control bg-dark text-white-50 bg-transparent border-end-0 border-start-0 border-top-0" validate required>
+            </div>         
+
+            <div class="mt-4">
+                <label asp-for="Password" for="inputPassword3" class="row-form-label text-white-50">Password</label>
+                <input asp-for="Password" type="password" class="form-control bg-dark text-white-50 bg-transparent border-end-0 border-start-0 border-top-0" id="inputPassword3" validate required>
+            </div>       
+            
+            <div class="mt-4">
+                <label asp-for="ConfirmPassword" for="confirmPassword3" class="row-form-label text-white-50">Confirm Password</label>
+                <input asp-for="ConfirmPassword" type="password" class="form-control bg-dark text-white-50 bg-transparent border-end-0 border-start-0 border-top-0" id="confirmPassword3">
+            </div> 
+        </div>
+
+        <div class="card-footer mt-4 mb-3 border-0">
+            <button type="submit" value="Register" class="btn btn-outline-info">Register</button>
+        </div>
+
+    </div>
+</form>
