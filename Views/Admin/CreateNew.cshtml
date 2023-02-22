@@ -9,7 +9,7 @@
 
 <div class="container card-header shadow-lg rounded-3 bg-dark mt-5">
     <div class="row form-inline">
-        <h2 class="col-sm text-secondary">New user 🧑‍💼</h2>
+        <h2 class="col-sm text-secondary">New user </h2>
         <div class="col-md-6">
             <a asp-action="Index" class="btn btn-sm btn-outline-info font-weight-bold ml-lg-2 offset-lg-10 float-lg-right">Users</a>
         </div>
@@ -25,7 +25,7 @@
 
         <div class="col-md-4 mb-3">
             <label asp-for="UserName" class="control-label text-info"></label>
-            <input asp-for="UserName" id="validationCustom02" class="form-control bg-dark  needs-validation text-light-emphasis" type="text" validate required />
+            <input asp-for="UserName" id="validationCustom02" class="form-control bg-dark  needs-validation text-light-emphasis input-group-text" type="text" validate required />
             <span asp-validation-for="UserName" class="text-danger"></span><span class="invalid-feedback"></span>
             <span><div class="valid-feedback">   OK!   </div></span>
         </div>
@@ -81,6 +81,7 @@
 
         <div class="col-md-4 mb-4">
             <label class="control-label text-info">Rola</label>
+
             <select name="mojeRole" class="form-select bg-dark text-info text-center" validate required asp-items="@(new SelectList (SveRole, nameof(SveRole.IdRole),nameof(SveRole.RoleName)))">
                 <option validate required value="" selected="SveRole" itemid="SveRole.IdRole">Select</option>
             </select>
