@@ -45,7 +45,7 @@ namespace AdminApp.Controllers
 
         #region USER 
 
-        // [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index(int? page)
         {        
             var user = AdminRepository.GetUsers();

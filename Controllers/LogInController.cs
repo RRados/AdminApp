@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using NuGet.Protocol.Plugins;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
@@ -61,7 +63,7 @@ namespace AdminApp.Controllers
 
                 return Redirect("/login/login");
             }
-            else
+            else 
             {                
                 await SignInUser(email,password);
 
@@ -69,13 +71,23 @@ namespace AdminApp.Controllers
                 var pamtiUlogovanog = context.Users.Where(p => p.Email == email).Select(p => p.IdUser).First();
                 AdminRepository.Login(pamtiUlogovanog);
 
-                if (string.IsNullOrWhiteSpace(returnUrl) || !returnUrl.StartsWith("/"))
-                TempData["LoginSuccess"] = $"{email} dobrodosli";
+                                           
+                if (string.IsNullOrWhiteSpace(returnUrl) || !returnUrl.StartsWith("/"))                    
+                    TempData["LoginSuccess"] = $"{email} dobrodosli";
                 {
-                    returnUrl = "/Home/Index";
-                }
+                    if (User.IsInRole("Admin"))
+                    { 
+                        returnUrl = "/Admin/Index";
+                    }
+                    else
+                    {
+                        returnUrl = "/Home/Index";
+                    }
+                }                
+
                 return Redirect(returnUrl);
             }
+         
 
             /* ako je cekirano REMEMBER ME
 
@@ -137,12 +149,12 @@ namespace AdminApp.Controllers
         // logOut..
         public  IActionResult SignOutUser(string email)
         {          
-            HttpContext.SignOutAsync( CookieAuthenticationDefaults.AuthenticationScheme);
-   
-            //var logOut = context.Users.Where(p => p.Email == email).Select(p => p.IdUser).First();
-            //AdminRepository.Login(logOut);
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var user = HttpContext.User.FindFirst(ClaimTypes.Email);
+            int idUser = context.Users.Where(p => p.Email == user.Value).Select(a => a.IdUser).First();
+            AdminRepository.LogOutTime(idUser);
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Login"); // kad se izlogujes, vrati te na Login page..
         }
 
 
