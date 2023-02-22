@@ -147,12 +147,14 @@ namespace AdminApp.Controllers
         }
 
         // logOut..
-        public  IActionResult SignOutUser(string email)
+        public IActionResult SignOutUser(string email)
         {          
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
             var user = HttpContext.User.FindFirst(ClaimTypes.Email);
-            int idUser = context.Users.Where(p => p.Email == user.Value).Select(a => a.IdUser).First();
-            AdminRepository.LogOutTime(idUser);
+            int idUser = context.Users.Where(p => p.Email == user.Value).Select(a => a.IdUser).Single();
+
+            AdminRepository.LogOutTime(idUser);   
 
             return RedirectToAction("Login"); // kad se izlogujes, vrati te na Login page..
         }
